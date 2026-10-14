@@ -1,0 +1,3 @@
+# Optional live-device smoke testing only; do not install to run the normal CI/Batfish path.
+pyats[full]==26.9
+PyYAML==6.0.2

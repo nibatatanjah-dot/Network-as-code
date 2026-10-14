@@ -1,0 +1,4 @@
+# Install on a Linux/WSL2 Ansible control node only; not needed for Windows rendering/CI.
+ansible-core==2.21.5
+ansible-pylibssh==1.4.0
+PyYAML==6.0.2

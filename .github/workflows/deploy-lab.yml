@@ -1,0 +1,75 @@
+name: Guarded Lab Deployment (optional)
+
+# This workflow is intentionally manual and will not deploy until a self-hosted
+# runner, GitHub environment, local inventory, and deployment candidates are prepared.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_deployment:
+        description: "Type YES_DEPLOY_TO_DISPOSABLE_LAB only after reviewing rollback readiness"
+        required: true
+        type: choice
+        options:
+          - NO
+          - YES_DEPLOY_TO_DISPOSABLE_LAB
+      demonstrate_rollback:
+        description: "Apply the candidate and deliberately trigger post-check failure to demonstrate rollback"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && inputs.confirm_deployment == 'YES_DEPLOY_TO_DISPOSABLE_LAB'
+    runs-on: [self-hosted, network-lab]
+    environment: network-lab
+    steps:
+      - name: Check out approved main branch
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Ansible and helper dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-ansible.txt
+          ansible-galaxy collection install -r requirements-collections.yml
+
+      - name: Confirm local readiness checks
+        env:
+          P3_ENABLE_DEPLOYMENT: ${{ secrets.P3_ENABLE_DEPLOYMENT }}
+          P3_CANDIDATE_DIR: ${{ vars.P3_CANDIDATE_DIR }}
+        run: python scripts/check_deployment_ready.py
+
+      - name: Run guarded deployment and rollback block
+        env:
+          P3_DEVICE_USERNAME: ${{ secrets.P3_DEVICE_USERNAME }}
+          P3_DEVICE_PASSWORD: ${{ secrets.P3_DEVICE_PASSWORD }}
+          P3_ENABLE_PASSWORD: ${{ secrets.P3_ENABLE_PASSWORD }}
+          P3_CANDIDATE_DIR: ${{ vars.P3_CANDIDATE_DIR }}
+        run: >-
+          ansible-playbook playbooks/deploy_with_rollback.yml
+          -e confirm_lab_deployment=true
+          -e force_rollback_demo=${{ inputs.demonstrate_rollback }}
+
+      - name: Build pyATS testbed from the same inventory
+        if: ${{ success() && !inputs.demonstrate_rollback }}
+        run: python scripts/build_pyats_testbed.py --inventory inventory/hosts.yml --output build/pyats_testbed.yml
+
+      - name: Install optional pyATS test harness
+        if: ${{ success() && !inputs.demonstrate_rollback }}
+        run: python -m pip install -r requirements-pyats.txt
+
+      - name: Run read-only pyATS smoke checks after deployment
+        if: ${{ success() && !inputs.demonstrate_rollback }}
+        env:
+          P3_DEVICE_USERNAME: ${{ secrets.P3_DEVICE_USERNAME }}
+          P3_DEVICE_PASSWORD: ${{ secrets.P3_DEVICE_PASSWORD }}
+          P3_ENABLE_PASSWORD: ${{ secrets.P3_ENABLE_PASSWORD }}
+        run: python tests/pyats/network_smoke.py --testbed build/pyats_testbed.yml

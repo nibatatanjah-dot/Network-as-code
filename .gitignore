@@ -1,0 +1,28 @@
+# Python environments and caches
+.venv/
+.venv-ansible/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Generated files may contain synthetic or real secrets
+build/
+configs/deploy/*.cfg
+configs/deploy/*.conf
+configs/deploy/DEPLOYMENT_READY
+configs/baseline/unredacted/
+configs/baseline/*.cfg
+configs/baseline/*.conf
+evidence/backups/
+evidence/private/
+.env
+.env.*
+!.env.example
+vault-password.txt
+*.vault
+
+# Local Ansible/pyATS output
+logs/
+archive/
+ansible.log
+playbook.retry

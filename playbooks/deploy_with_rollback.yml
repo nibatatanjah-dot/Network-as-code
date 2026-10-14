@@ -1,0 +1,123 @@
+---
+# This playbook is intentionally guarded. It is for a disposable, SSH-accessible
+# IOS/IOS-XE lab that has been tested for `configure replace nvram:startup-config force`.
+# It is NOT compatible with Packet Tracer simulated devices.
+- name: Apply an approved candidate and restore known-good startup config on failure
+  hosts: network_devices
+  gather_facts: false
+  serial: 1
+  vars:
+    confirm_lab_deployment: false
+    force_rollback_demo: false
+  pre_tasks:
+    - name: Refuse deployment unless the operator explicitly confirms the target is disposable
+      ansible.builtin.assert:
+        that:
+          - confirm_lab_deployment | bool
+          - deployment_verified | bool
+          - p3_rollback_method_verified | bool
+        fail_msg: >-
+          Deployment blocked. Set confirm_lab_deployment=true only for a disposable target;
+          also verify SSH access and configure-replace rollback support for every selected device.
+
+    - name: Create controller-side backup directory
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../evidence/backups/{{ inventory_hostname }}"
+        state: directory
+        mode: "0700"
+      delegate_to: localhost
+      become: false
+
+    - name: Require a local, reviewed candidate config
+      ansible.builtin.stat:
+        path: "{{ p3_candidate_config }}"
+      register: candidate_file
+      delegate_to: localhost
+      become: false
+
+    - name: Stop if the approved candidate is missing
+      ansible.builtin.assert:
+        that:
+          - candidate_file.stat.exists
+          - candidate_file.stat.isreg
+        fail_msg: "Missing local candidate {{ p3_candidate_config }}; do not deploy the CI-only render output."
+
+    - name: Refuse a candidate containing obvious placeholders or CI-only keys
+      ansible.builtin.command:
+        argv:
+          - "{{ ansible_playbook_python }}"
+          - "{{ playbook_dir }}/../scripts/check_deploy_candidate.py"
+          - "{{ p3_candidate_config }}"
+      changed_when: false
+      delegate_to: localhost
+      become: false
+
+  tasks:
+    - name: Back up current running configuration to the controller
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          dir_path: "{{ playbook_dir }}/../evidence/backups/{{ inventory_hostname }}"
+      register: before_backup
+
+    - name: Save the current known-good running state as startup config
+      cisco.ios.ios_command:
+        commands:
+          - write memory
+
+    - name: Deploy inside a rollback-protected block
+      block:
+        - name: Apply the reviewed configuration fragment
+          cisco.ios.ios_config:
+            src: "{{ p3_candidate_config }}"
+            save_when: never
+
+        - name: Verify IOS still responds to basic operational inspection
+          cisco.ios.ios_command:
+            commands:
+              - show ip interface brief
+          register: postcheck_interfaces
+
+        - name: Confirm the operational output is present
+          ansible.builtin.assert:
+            that:
+              - postcheck_interfaces.stdout is defined
+              - postcheck_interfaces.stdout | length > 0
+              - "'Interface' in postcheck_interfaces.stdout[0]"
+            fail_msg: "Post-deployment interface check did not return the expected output."
+
+        - name: Deliberately fail after deployment to demonstrate rollback (lab only)
+          ansible.builtin.fail:
+            msg: "Intentional rollback demonstration was requested."
+          when: force_rollback_demo | bool
+
+        - name: Commit the verified configuration to startup only after checks pass
+          cisco.ios.ios_command:
+            commands:
+              - write memory
+
+      rescue:
+        - name: Restore the pre-change startup configuration
+          cisco.ios.ios_command:
+            commands:
+              - configure replace nvram:startup-config force
+          register: rollback_result
+
+        - name: Verify the device is responsive after rollback
+          cisco.ios.ios_command:
+            commands:
+              - show ip interface brief
+          register: post_rollback_check
+
+        - name: Confirm rollback produced operational output
+          ansible.builtin.assert:
+            that:
+              - post_rollback_check.stdout is defined
+              - post_rollback_check.stdout | length > 0
+            fail_msg: "Rollback command was issued, but post-rollback verification failed. Escalate manually."
+
+        - name: Stop the run as failed even if rollback succeeded
+          ansible.builtin.fail:
+            msg: >-
+              Deployment/post-check failed on {{ inventory_hostname }}. The rollback command was issued
+              and the device responded to the follow-up check. Investigate the original failure before retrying.

@@ -1,0 +1,206 @@
+! P3 NETWORK-AS-CODE REFERENCE SNAPSHOT — generated; reconcile with P1 before deployment.
+hostname HQ-SW1
+no ip domain-lookup
+service timestamps log datetime msec
+!
+vlan 10
+ name STAFF
+vlan 20
+ name SERVERS
+vlan 30
+ name GUESTS
+vlan 99
+ name MGMT
+vlan 999
+ name BLACKHOLE
+!
+spanning-tree portfast default
+spanning-tree bpduguard default
+ip dhcp snooping
+ip dhcp snooping vlan 10,30
+no ip dhcp snooping information option
+ip arp inspection vlan 10,30
+ip arp inspection validate src-mac dst-mac ip
+!
+interface GigabitEthernet0/1
+ description TRUNK-to-HQ-R1
+ switchport mode trunk
+ switchport nonegotiate
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,99
+ ip dhcp snooping trust
+ ip arp inspection trust
+ no shutdown
+!
+interface FastEthernet0/1
+ description STAFF-ACCESS
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ no shutdown
+!
+interface FastEthernet0/2
+ description HQ-SERVER-ACCESS
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ no shutdown
+!
+interface FastEthernet0/3
+ description GUEST-ACCESS
+ switchport mode access
+ switchport access vlan 30
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ no shutdown
+!
+interface FastEthernet0/4
+ description MANAGEMENT-HOST-ACCESS
+ switchport mode access
+ switchport access vlan 99
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+ spanning-tree portfast
+ no shutdown
+!
+interface FastEthernet0/5
+ description CONTROLLED-ROGUE-DHCP-TEST-PORT-LEAVE-SHUT-EXCEPT-DURING-TEST
+ switchport mode access
+ switchport access vlan 30
+ shutdown
+!
+interface Vlan99
+ description SWITCH-MANAGEMENT
+ ip address 10.10.99.2 255.255.255.0
+ no shutdown
+!
+ip default-gateway 10.10.99.1
+!
+interface FastEthernet0/6
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/7
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/8
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/9
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/10
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/11
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/12
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/13
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/14
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/15
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/16
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/17
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/18
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/19
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/20
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/21
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/22
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/23
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+interface FastEthernet0/24
+ description UNUSED-PARKED
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+!
+end

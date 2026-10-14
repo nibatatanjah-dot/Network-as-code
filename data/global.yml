@@ -1,0 +1,44 @@
+project:
+  name: P3 Network-as-Code SME Lab
+  domain: lab.local
+  ospf_process_id: 10
+  test_server_ip: 10.10.20.10
+  simulated_internet_ip: 8.8.8.8
+
+vlans:
+  - id: 10
+    name: STAFF
+    purpose: employee workstations
+    dhcp: true
+  - id: 20
+    name: SERVERS
+    purpose: internal servers
+    dhcp: false
+  - id: 30
+    name: GUESTS
+    purpose: visitor internet access only
+    dhcp: true
+  - id: 99
+    name: MGMT
+    purpose: network-device administration
+    dhcp: false
+  - id: 999
+    name: BLACKHOLE
+    purpose: native and unused-port parking VLAN
+    dhcp: false
+
+trunk:
+  native_vlan: 999
+  allowed_vlans: [10, 20, 30, 99]
+
+security_policy:
+  guest_to_internal: deny
+  guest_to_management: deny
+  staff_to_guest: deny
+  staff_to_management: deny
+  management_protocols: [ssh, https, icmp]
+  guest_internet_protocols: [http, https, dns]
+
+# Simulation-only credentials are supplied by scripts/render_configs.py in CI mode.
+# Real IPsec pre-shared keys must be provided as environment variables for local
+# deployment-mode rendering; do not add them to this file or to Git.

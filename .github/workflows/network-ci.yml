@@ -1,0 +1,99 @@
+name: Network-as-Code CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-render-test:
+    name: Lint, render and unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install project tools
+        run: python -m pip install -r requirements.txt
+
+      - name: Lint YAML files
+        run: yamllint -c .yamllint data inventory playbooks .github/workflows requirements-collections.yml docker-compose.yml
+
+      - name: Validate network source of truth
+        run: python scripts/validate_data.py
+
+      - name: Render reference configuration snapshots
+        run: python scripts/render_configs.py --mode ci --output build/rendered
+
+      - name: Build Batfish snapshot and modeled hosts
+        run: python scripts/build_batfish_snapshot.py --configs build/rendered --output build/batfish_snapshot
+
+      - name: Run local unit tests
+        run: pytest -q
+
+  batfish-policy-checks:
+    name: Batfish reachability and security analysis
+    runs-on: ubuntu-latest
+    needs: lint-render-test
+    services:
+      batfish:
+        image: batfish/allinone:test-2026.10.06.3806
+        ports:
+          - 9996:9996
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install project tools
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate and render candidate
+        run: |
+          python scripts/validate_data.py
+          python scripts/render_configs.py --mode ci --output build/rendered
+          python scripts/build_batfish_snapshot.py --configs build/rendered --output build/batfish_snapshot
+
+      - name: Wait for Batfish API
+        run: python scripts/wait_for_batfish.py --host localhost --port 9996 --timeout 180
+
+      - name: Run candidate-network policy assertions
+        run: python scripts/batfish_validate.py --snapshot-dir build/batfish_snapshot --host localhost --port 9996
+
+      - name: Prove the security gate detects an intentionally unsafe candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/make_bad_change.py --source build/rendered --output build/bad-change
+          python scripts/build_batfish_snapshot.py --configs build/bad-change --output build/bad-snapshot
+          set +e
+          python scripts/batfish_validate.py --snapshot-dir build/bad-snapshot --host localhost --port 9996 > build/bad-candidate-result.txt 2>&1
+          status=$?
+          set -e
+          cat build/bad-candidate-result.txt
+          if [ "$status" -ne 1 ]; then
+            echo "Expected the bad candidate to fail specifically on a policy assertion (exit 1); got $status." >&2
+            exit 1
+          fi
+          grep -Fq "guest-to-server reachability exists" build/bad-candidate-result.txt || {
+            echo "Batfish failed, but not for the expected guest-isolation violation." >&2
+            exit 1
+          }
+          echo "PASS: the deliberate guest-isolation violation was detected."

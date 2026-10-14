@@ -1,0 +1,17 @@
+! P3 NETWORK-AS-CODE REFERENCE SNAPSHOT — simulated ISP, not a production edge.
+hostname {{ isp.hostname }}
+no ip domain-lookup
+service timestamps debug datetime msec
+service timestamps log datetime msec
+{% for interface in isp.interfaces %}
+interface {{ interface.name }}
+ description {{ interface.description }}
+ ip address {{ interface.address }} {{ interface.mask }}
+ no shutdown
+!
+{% endfor %}
+interface {{ isp.loopback.interface }}
+ description SIMULATED-INTERNET-TEST-IP
+ ip address {{ isp.loopback.address }} {{ isp.loopback.mask }}
+!
+end

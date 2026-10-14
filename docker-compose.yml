@@ -1,0 +1,8 @@
+services:
+  # Dated Batfish all-in-one image tag checked on 2026-10-14; deliberately review and update this tag when upgrading the service.
+  batfish:
+    image: batfish/allinone:test-2026.10.06.3806
+    container_name: p3-batfish
+    ports:
+      - "9996:9996"
+    restart: unless-stopped
