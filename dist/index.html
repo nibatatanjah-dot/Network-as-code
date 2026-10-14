@@ -3,209 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b111b" />
-    <meta name="description" content="P3 Network Change Assurance dashboard" />
-    <title>P3 Control Room — Network Change Assurance</title>
+    <meta name="theme-color" content="#0a0f15" />
+    <meta name="description" content="P3 Network Assurance briefing" />
+    <title>P3 Network Assurance — Change briefing</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="brand-lockup">
-          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div>
-            <p class="eyebrow">P3 / NETWORK-AS-CODE</p>
-            <p class="brand-name">Control room</p>
-          </div>
-        </div>
-
-        <div class="workspace-switcher">
-          <div class="workspace-icon">N</div>
-          <div class="workspace-copy">
-            <span>Network assurance</span>
-            <strong>SME / production model</strong>
-          </div>
-          <span class="chevron" aria-hidden="true">⌄</span>
-        </div>
-
-        <nav class="nav-list" aria-label="Dashboard sections">
-          <button class="nav-item is-active" type="button" data-view-target="overview">
-            <span class="nav-icon">⌂</span><span>Overview</span>
-          </button>
-          <button class="nav-item" type="button" data-view-target="policy">
-            <span class="nav-icon">◈</span><span>Policy gate</span><span class="nav-count">4</span>
-          </button>
-          <button class="nav-item" type="button" data-view-target="simulate">
-            <span class="nav-icon">↯</span><span>Change simulator</span>
-          </button>
-          <button class="nav-item" type="button" data-view-target="evidence">
-            <span class="nav-icon">▤</span><span>Evidence</span>
-          </button>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#" aria-label="P3 Network Assurance home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span><b>P3</b><em>NETWORK ASSURANCE</em></span>
+        </a>
+        <nav class="top-nav" aria-label="Briefing sections">
+          <button class="top-nav-item is-active" type="button" data-view-target="overview">Overview</button>
+          <button class="top-nav-item" type="button" data-view-target="policy">Safety checks</button>
+          <button class="top-nav-item" type="button" data-view-target="simulate">Change review</button>
+          <button class="top-nav-item" type="button" data-view-target="evidence">Proof</button>
         </nav>
-
-        <div class="sidebar-spacer"></div>
-
-        <div class="sidebar-note">
-          <span class="status-dot is-green"></span>
-          <div>
-            <strong>Model validated</strong>
-            <span>14 Oct 2026 · 17:41 WAT</span>
-          </div>
+        <div class="header-tools">
+          <span class="review-status"><i class="status-dot is-green"></i><span>Review status</span><strong>Ready</strong></span>
+          <button class="presentation-button" type="button" data-action="presentation" aria-label="Toggle presentation mode">⤢</button>
+          <span class="owner-mark" aria-label="Project owner">N</span>
         </div>
-        <div class="sidebar-footer">
-          <span>REFERENCE CANDIDATE</span>
-          <span class="footer-lock">⌁ CI ONLY</span>
-        </div>
-      </aside>
+      </header>
 
-      <main class="main-content">
-        <header class="topbar">
-          <div class="breadcrumb"><span>Projects</span><span class="breadcrumb-separator">/</span><strong>P3 Network Assurance</strong></div>
-          <div class="topbar-actions">
-            <span class="topbar-status"><span class="status-dot is-green"></span>All systems modeled</span>
-            <button class="icon-button" type="button" aria-label="Open presentation mode" data-action="presentation">⤢</button>
-            <div class="avatar" aria-label="Project owner">N</div>
-          </div>
-        </header>
-
-        <div class="content-wrap">
-          <section class="view is-visible" data-view="overview">
-            <div class="page-heading">
-              <div>
-                <div class="section-kicker"><span class="kicker-line"></span>CHANGE ASSURANCE / EXECUTIVE VIEW</div>
-                <h1>Network change assurance,<br /><em>before the network changes.</em></h1>
-                <p class="heading-copy">A visual proof that the intended network is consistent, secure, and ready for human review.</p>
+      <main class="briefing-main">
+        <section class="view is-visible" data-view="overview">
+          <div class="hero-layout">
+            <div class="hero-copy">
+              <p class="section-kicker"><span></span>PRE-DEPLOYMENT BRIEFING</p>
+              <h1>Make every network change <em>easier to trust.</em></h1>
+              <p class="hero-lede">See the intended network, test the important traffic, and show exactly why a change can move forward—or must stop.</p>
+              <div class="hero-actions">
+                <button class="button button-primary" type="button" data-action="run-safe"><span class="button-dot"></span>Show the safe change <b>→</b></button>
+                <button class="button button-quiet" type="button" data-action="view-evidence">See the proof <b>↗</b></button>
               </div>
-              <div class="heading-actions">
-                <button class="button button-quiet" type="button" data-action="view-evidence"><span>View evidence</span><span class="button-arrow">↗</span></button>
-                <button class="button button-primary" type="button" data-action="run-safe"><span class="button-orb"></span><span>Run safe scenario</span></button>
+              <p class="hero-footnote"><span class="status-dot is-amber"></span>This is a validated design review. It is not live device monitoring.</p>
+            </div>
+            <aside class="readiness-card">
+              <div class="readiness-top"><span>DECISION STATUS</span><span class="readiness-pulse"></span></div>
+              <div class="readiness-ring"><div><strong>READY</strong><span>for review</span></div></div>
+              <p>The proposed network state has passed its local safety checks.</p>
+              <div class="readiness-meta"><span>Checks complete</span><strong>16 / 16</strong><span>Live deployment</span><strong class="is-amber-text">Not run</strong></div>
+            </aside>
+          </div>
+
+          <div class="signal-strip" aria-label="Project summary">
+            <div class="signal"><span>Sites covered</span><strong>03</strong><em>HQ + two branches</em></div>
+            <div class="signal"><span>Network devices</span><strong>07</strong><em>Routers, switches, WAN edge</em></div>
+            <div class="signal"><span>Safety checks</span><strong>16</strong><em class="is-green-text">All passed locally</em></div>
+            <div class="signal"><span>Last review</span><strong>17:41</strong><em>14 Oct 2026 · WAT</em></div>
+          </div>
+
+          <div class="section-heading"><div><p class="section-index">01 / NETWORK STORY</p><h2>The network at a glance.</h2></div><p>One shared view of HQ, both branches, and the links that connect them.</p></div>
+          <div class="network-story">
+            <article class="network-map panel-surface">
+              <div class="panel-top"><div><p class="panel-label">NETWORK MAP</p><h3>HQ + two branches</h3></div><span class="panel-note"><i class="status-dot is-green"></i>Paths checked</span></div>
+              <div class="topology-stage" aria-label="Network topology map">
+                <div class="topology-grid"></div>
+                <svg class="topology-lines" viewBox="0 0 760 310" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="topology-line is-muted" d="M380 73 C380 41 380 35 380 18" />
+                  <path class="topology-line" d="M380 79 C292 45 229 50 158 105" />
+                  <path class="topology-line" d="M380 79 C470 45 531 50 602 105" />
+                  <path class="topology-line is-soft" d="M158 151 C158 194 158 220 158 263" />
+                  <path class="topology-line is-soft" d="M602 151 C602 194 602 220 602 263" />
+                  <path class="topology-line is-soft" d="M380 119 C380 183 380 217 380 263" />
+                </svg>
+                <button class="network-node node-isp" type="button" data-node="ISP"><span class="node-glyph">◎</span><strong>ISP / WAN</strong><small>3 links</small></button>
+                <button class="network-node node-hq" type="button" data-node="HQ-R1"><span class="node-light is-green"></span><strong>HQ-R1</strong><small>HQ router · 2 tunnels</small></button>
+                <button class="network-node node-br1" type="button" data-node="BR1-R1"><span class="node-light is-green"></span><strong>BR1-R1</strong><small>Branch 1</small></button>
+                <button class="network-node node-br2" type="button" data-node="BR2-R1"><span class="node-light is-green"></span><strong>BR2-R1</strong><small>Branch 2</small></button>
+                <button class="network-node node-hq-sw" type="button" data-node="HQ-SW1"><span class="node-light is-blue"></span><strong>HQ-SW1</strong><small>Access layer</small></button>
+                <button class="network-node node-br1-sw" type="button" data-node="BR1-SW1"><span class="node-light is-blue"></span><strong>BR1-SW1</strong><small>Access layer</small></button>
+                <button class="network-node node-br2-sw" type="button" data-node="BR2-SW1"><span class="node-light is-blue"></span><strong>BR2-SW1</strong><small>Access layer</small></button>
+                <div class="map-legend"><span><i class="legend-line is-green"></i>Validated link</span><span><i class="legend-line is-blue"></i>Access layer</span></div>
               </div>
-            </div>
+            </article>
+            <article class="story-card panel-surface">
+              <p class="panel-label">WHAT THE CLIENT SHOULD KNOW</p>
+              <h3>A network that can explain itself.</h3>
+              <div class="story-list">
+                <div class="story-item"><span>01</span><div><strong>Three sites, one source of truth.</strong><p>Addresses, VLANs, tunnels, and rules are described once and applied consistently.</p></div></div>
+                <div class="story-item"><span>02</span><div><strong>Business traffic stays open.</strong><p>Staff can reach the approved HQ service while guest traffic stays separated.</p></div></div>
+                <div class="story-item"><span>03</span><div><strong>Unsafe changes stop early.</strong><p>A proposed rule is tested before it becomes a device incident.</p></div></div>
+              </div>
+              <button class="story-link" type="button" data-view-target="policy">Open the safety checks <b>→</b></button>
+            </article>
+          </div>
 
-            <div class="metric-grid" aria-label="Project summary">
-              <article class="metric-card">
-                <div class="metric-label">Sites modeled <span class="metric-icon">⌁</span></div>
-                <div class="metric-value">03</div>
-                <div class="metric-detail"><span class="trend-line"></span>HQ + two branches</div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-label">Network devices <span class="metric-icon">⌘</span></div>
-                <div class="metric-value">07</div>
-                <div class="metric-detail"><span class="dot-cluster"><i></i><i></i><i></i></span>3 routers · 3 switches · ISP</div>
-              </article>
-              <article class="metric-card metric-card-highlight">
-                <div class="metric-label">Validation checks <span class="metric-icon">✓</span></div>
-                <div class="metric-value">16<span class="metric-suffix">/16</span></div>
-                <div class="metric-detail is-green-text"><span class="status-dot is-green"></span>Passed locally</div>
-              </article>
-              <article class="metric-card">
-                <div class="metric-label">Deployment status <span class="metric-icon">◌</span></div>
-                <div class="metric-value metric-value-text">Not executed</div>
-                <div class="metric-detail"><span class="status-dot is-amber"></span>Review boundary intact</div>
-              </article>
-            </div>
+          <div class="section-heading section-heading-tight"><div><p class="section-index">02 / CLEANUP RECORD</p><h2>What was corrected.</h2></div><p>Four findings from the original network review are now explicit in the desired design.</p></div>
+          <div class="correction-grid">
+            <button class="correction-card" type="button" data-finding="Branch 1 staff gateway"><span>01</span><div><strong>Branch 1 staff gateway</strong><p>Staff clients were pointed at the guest gateway. The intended staff gateway is now explicit.</p></div><b>↗</b></button>
+            <button class="correction-card" type="button" data-finding="Branch 2 tunnel endpoint"><span>02</span><div><strong>Branch 2 tunnel endpoint</strong><p>The HQ WAN destination is now part of the desired design instead of being implied.</p></div><b>↗</b></button>
+            <button class="correction-card" type="button" data-finding="Branch management addresses"><span>03</span><div><strong>Branch management addresses</strong><p>Each branch switch now uses its own management subnet and gateway.</p></div><b>↗</b></button>
+            <button class="correction-card" type="button" data-finding="Secure trunk settings"><span>04</span><div><strong>Secure trunk settings</strong><p>Allowed VLANs, native VLAN, and negotiation settings are clearly defined.</p></div><b>↗</b></button>
+          </div>
+        </section>
 
-            <div class="dashboard-grid dashboard-grid-top">
-              <article class="panel topology-panel">
-                <div class="panel-heading">
-                  <div>
-                    <p class="panel-overline">01 / TOPOLOGY</p>
-                    <h2>Three sites. One controlled model.</h2>
-                  </div>
-                  <span class="panel-tag">INTERACTIVE MAP</span>
-                </div>
-                <div class="topology-stage" aria-label="Network topology map">
-                  <div class="topology-grid"></div>
-                  <svg class="topology-lines" viewBox="0 0 760 320" preserveAspectRatio="none" aria-hidden="true">
-                    <path class="topology-line is-active" d="M391 88 C300 55 230 54 168 103" />
-                    <path class="topology-line is-active" d="M391 88 C492 54 550 58 607 103" />
-                    <path class="topology-line is-muted" d="M391 88 C391 53 391 41 391 24" />
-                    <path class="topology-line is-soft" d="M168 151 C168 199 168 228 168 262" />
-                    <path class="topology-line is-soft" d="M607 151 C607 199 607 228 607 262" />
-                  </svg>
-                  <button class="network-node node-isp" type="button" data-node="ISP" aria-label="View ISP details"><span class="node-icon">◎</span><span class="node-name">ISP / WAN</span><span class="node-meta">3 links</span></button>
-                  <button class="network-node node-hq" type="button" data-node="HQ-R1"><span class="node-status is-green"></span><span class="node-name">HQ-R1</span><span class="node-meta">HQ router · 2 tunnels</span></button>
-                  <button class="network-node node-br1" type="button" data-node="BR1-R1"><span class="node-status is-green"></span><span class="node-name">BR1-R1</span><span class="node-meta">Branch 1 · validated</span></button>
-                  <button class="network-node node-br2" type="button" data-node="BR2-R1"><span class="node-status is-green"></span><span class="node-name">BR2-R1</span><span class="node-meta">Branch 2 · validated</span></button>
-                  <button class="network-node node-hq-sw" type="button" data-node="HQ-SW1"><span class="node-status is-blue"></span><span class="node-name">HQ-SW1</span><span class="node-meta">Access layer</span></button>
-                  <button class="network-node node-br1-sw" type="button" data-node="BR1-SW1"><span class="node-status is-blue"></span><span class="node-name">BR1-SW1</span><span class="node-meta">Access layer</span></button>
-                  <button class="network-node node-br2-sw" type="button" data-node="BR2-SW1"><span class="node-status is-blue"></span><span class="node-name">BR2-SW1</span><span class="node-meta">Access layer</span></button>
-                  <div class="topology-legend"><span><i class="legend-dot is-green"></i>Validated path</span><span><i class="legend-dot is-blue"></i>Access layer</span></div>
-                </div>
-              </article>
+        <section class="view" data-view="policy">
+          <div class="inner-heading"><p class="section-kicker"><span></span>SAFETY CHECKS</p><h1>Does the proposed network behave <em>as expected?</em></h1><p>These are the four questions the design must answer before a person reviews the change.</p></div>
+          <div class="check-layout">
+            <article class="check-list panel-surface"><div class="panel-top"><div><p class="panel-label">DECISION CHECKLIST</p><h3>What the tests prove</h3></div><span class="pass-badge">4 / 4 PASS</span></div>
+              <div class="check-row"><span class="check-number">01</span><div><strong>Approved business flow</strong><p>HQ Staff can reach the HQ server over HTTPS.</p></div><b>PASS</b></div>
+              <div class="check-row"><span class="check-number">02</span><div><strong>Guest separation</strong><p>HQ Guest cannot reach the HQ server over HTTPS.</p></div><b>PASS</b></div>
+              <div class="check-row"><span class="check-number">03</span><div><strong>Management boundary</strong><p>Management traffic is not included in the internet NAT rule.</p></div><b>PASS</b></div>
+              <div class="check-row"><span class="check-number">04</span><div><strong>Unsafe-change detection</strong><p>A permissive guest rule causes the review gate to fail.</p></div><b>PASS</b></div>
+            </article>
+            <aside class="meaning-card"><p class="panel-label">IN PLAIN ENGLISH</p><h2>Green means the design is behaving. It does not mean a device was changed.</h2><p>The checks run against the proposed network design. Human review, backups, platform support, and a tested rollback plan remain part of the approval process.</p><div class="boundary-note"><i class="status-dot is-amber"></i><div><strong>Live deployment</strong><span>Not run for this demonstration</span></div></div></aside>
+          </div>
+        </section>
 
-              <article class="panel policy-panel">
-                <div class="panel-heading">
-                  <div>
-                    <p class="panel-overline">02 / POLICY GATE</p>
-                    <h2>What the model proves</h2>
-                  </div>
-                  <button class="text-link" type="button" data-view-target="policy">View all <span>↗</span></button>
-                </div>
-                <div class="policy-summary"><span class="policy-summary-ring">✓</span><div><strong>Safe candidate</strong><span>Ready for human review</span></div></div>
-                <div class="policy-list">
-                  <div class="policy-row"><span class="policy-check">✓</span><span>Staff → HQ server over HTTPS</span><span class="policy-result">ALLOWED</span></div>
-                  <div class="policy-row"><span class="policy-check">✓</span><span>Guest → HQ server over HTTPS</span><span class="policy-result">BLOCKED</span></div>
-                  <div class="policy-row"><span class="policy-check">✓</span><span>Management VLAN excluded from NAT</span><span class="policy-result">PASS</span></div>
-                  <div class="policy-row"><span class="policy-check">✓</span><span>Intentional unsafe rule detected</span><span class="policy-result">GATED</span></div>
-                </div>
-                <button class="panel-footer-link" type="button" data-view-target="simulate"><span>Test the unsafe change</span><span>→</span></button>
-              </article>
-            </div>
+        <section class="view" data-view="simulate">
+          <div class="inner-heading"><p class="section-kicker"><span></span>CHANGE REVIEW</p><h1>See the outcome,<br /><em>not the technical detail.</em></h1><p>Choose a scenario and let the screen explain whether the change can move forward.</p><div class="scenario-chip" data-scenario-chip>SAFE CHANGE</div></div>
+          <div class="change-room-grid">
+            <article class="scenario-panel panel-surface"><div class="panel-top"><div><p class="panel-label">CHOOSE A SCENARIO</p><h3>Which change should we review?</h3></div><span class="panel-note">Client summary</span></div><div class="scenario-options"><button class="scenario-card is-selected" type="button" data-scenario="safe"><span class="scenario-top"><span class="scenario-icon is-green">✓</span><small>EXPECTED OUTCOME</small></span><strong>Safe change</strong><p>Staff keeps access to the approved server. Guest access remains separated.</p><span class="scenario-cta">Run this scenario <b>→</b></span></button><button class="scenario-card" type="button" data-scenario="unsafe"><span class="scenario-top"><span class="scenario-icon is-red">!</span><small>SHOULD BE STOPPED</small></span><strong>Unsafe guest rule</strong><p>A permissive rule is placed before the guest protection rule.</p><span class="scenario-cta is-red-text">Try the blocked scenario <b>→</b></span></button></div><div class="scenario-result is-safe" data-scenario-result><span class="result-mark">✓</span><div class="result-copy"><small>DECISION</small><strong data-result-title>Safe change can move to review</strong><span data-result-copy>All four policy questions are answered correctly.</span></div><b class="result-code" data-result-code>PASS</b></div></article>
+            <article class="decision-panel panel-surface"><div class="panel-top"><div><p class="panel-label">WHAT THE CHECK FOUND</p><h3>Simple explanation</h3></div><span class="panel-note">Plain-language result</span></div><div class="decision-lines"><div><span>Guest → private network</span><b class="decision-blocked">BLOCKED</b></div><div><span>Staff → approved server</span><b class="decision-allowed">ALLOWED</b></div><div class="decision-explanation"><i>i</i><p>The safe option keeps private networks protected before allowing public services.</p></div></div><button class="story-link" type="button" data-view-target="evidence">See the supporting proof <b>→</b></button></article>
+          </div>
+        </section>
 
-            <div class="dashboard-grid dashboard-grid-bottom">
-              <article class="panel reconciliation-panel">
-                <div class="panel-heading">
-                  <div>
-                    <p class="panel-overline">03 / RECONCILIATION</p>
-                    <h2>From drift to desired state</h2>
-                  </div>
-                  <span class="small-muted">4 findings addressed</span>
-                </div>
-                <div class="reconciliation-list">
-                  <button class="reconciliation-item" type="button" data-finding="Branch 1 DHCP gateway">
-                    <span class="finding-index">01</span><span class="finding-copy"><strong>Branch 1 DHCP gateway</strong><span>Staff traffic was pointed at the guest gateway.</span></span><span class="finding-arrow">↗</span>
-                  </button>
-                  <button class="reconciliation-item" type="button" data-finding="Branch 2 tunnel destination">
-                    <span class="finding-index">02</span><span class="finding-copy"><strong>Branch 2 tunnel destination</strong><span>HQ WAN endpoint is now explicit in the model.</span></span><span class="finding-arrow">↗</span>
-                  </button>
-                  <button class="reconciliation-item" type="button" data-finding="Branch switch management">
-                    <span class="finding-index">03</span><span class="finding-copy"><strong>Branch switch management</strong><span>Management SVIs now use their own site subnets.</span></span><span class="finding-arrow">↗</span>
-                  </button>
-                  <button class="reconciliation-item" type="button" data-finding="Secure trunk policy">
-                    <span class="finding-index">04</span><span class="finding-copy"><strong>Secure trunk policy</strong><span>Native VLAN, allowed VLANs, and DTP are explicit.</span></span><span class="finding-arrow">↗</span>
-                  </button>
-                </div>
-              </article>
-              <article class="panel activity-panel">
-                <div class="panel-heading"><div><p class="panel-overline">04 / AUDIT TRAIL</p><h2>Last validation</h2></div><span class="small-muted">Today</span></div>
-                <div class="activity-hero"><span class="activity-icon">✓</span><div><strong>Candidate validated</strong><span>All required local checks passed.</span></div></div>
-                <div class="activity-meta"><span>Commit</span><strong>e6f5fdb</strong><span>16 checks</span><strong class="is-green-text">PASS</strong></div>
-                <button class="panel-footer-link" type="button" data-view-target="evidence"><span>Open evidence trail</span><span>→</span></button>
-              </article>
-            </div>
-          </section>
-
-          <section class="view" data-view="policy">
-            <div class="page-heading compact-heading"><div><div class="section-kicker"><span class="kicker-line"></span>POLICY GATE / VALIDATION OUTCOMES</div><h1>Rules the network must keep.</h1><p class="heading-copy">Plain-language controls mapped to the modeled candidate.</p></div><div class="heading-actions"><button class="button button-primary" type="button" data-action="run-safe"><span class="button-orb"></span><span>Re-run policy gate</span></button></div></div>
-            <div class="policy-detail-layout"><article class="panel policy-detail-panel"><div class="panel-heading"><div><p class="panel-overline">CONTROL SET / 04 ASSERTIONS</p><h2>Candidate policy</h2></div><span class="panel-tag tag-green">ALL CLEAR</span></div><div class="large-policy-list"><div class="large-policy-row"><div class="large-policy-status">✓</div><div><strong>Approved business flow</strong><span>HQ Staff can reach the modeled HQ server over HTTPS.</span></div><b>PASS</b></div><div class="large-policy-row"><div class="large-policy-status">✓</div><div><strong>Guest segmentation</strong><span>HQ Guest has no successful path to the HQ server over HTTPS.</span></div><b>PASS</b></div><div class="large-policy-row"><div class="large-policy-status">✓</div><div><strong>Management boundary</strong><span>Management VLAN is not included in the NAT match or data-plane policy.</span></div><b>PASS</b></div><div class="large-policy-row"><div class="large-policy-status">✓</div><div><strong>Unsafe-change gate</strong><span>An intentionally permissive rule produces a deterministic failure.</span></div><b>PASS</b></div></div></article><article class="panel plain-language-panel"><p class="panel-overline">WHY THIS MATTERS</p><h2>Green does not mean “deployed.”</h2><p>This screen proves the candidate behaves as intended in the modeled network. A human still reviews the generated diff, device support, backup plan, and rollback method before anything reaches a live device.</p><div class="boundary-card"><span class="status-dot is-amber"></span><div><strong>Deployment boundary</strong><span>Reference candidate only · live deployment not executed</span></div></div></article></div>
-          </section>
-
-          <section class="view" data-view="simulate">
-            <div class="page-heading compact-heading"><div><div class="section-kicker"><span class="kicker-line"></span>CHANGE SIMULATOR / PRE-MERGE GATE</div><h1>Make the risk visible.</h1><p class="heading-copy">Choose a scenario and show the client exactly how the assurance gate responds.</p></div><div class="heading-actions"><span class="scenario-chip" data-scenario-chip>SAFE CANDIDATE</span></div></div>
-            <div class="simulator-layout"><article class="panel scenario-panel"><div class="panel-heading"><div><p class="panel-overline">SCENARIO CONTROL</p><h2>What should we test?</h2></div><span class="small-muted">Demo mode</span></div><div class="scenario-options"><button class="scenario-card is-selected" type="button" data-scenario="safe"><span class="scenario-card-top"><span class="scenario-symbol is-green">✓</span><span class="scenario-state">EXPECTED</span></span><strong>Safe candidate</strong><span>Staff reaches the approved server; Guest remains isolated.</span><span class="scenario-action">Run safe validation <b>→</b></span></button><button class="scenario-card" type="button" data-scenario="unsafe"><span class="scenario-card-top"><span class="scenario-symbol is-red">!</span><span class="scenario-state">INTENTIONAL FAILURE</span></span><strong>Unsafe guest rule</strong><span>A permissive ACL is inserted before the intended guest deny.</span><span class="scenario-action">Trigger security gate <b>→</b></span></button></div><div class="scenario-result is-safe" data-scenario-result><div class="result-mark">✓</div><div class="result-copy"><span class="result-eyebrow">CURRENT RESULT</span><strong data-result-title>Safe candidate passes</strong><span data-result-copy>All required policy assertions are satisfied. The change can proceed to human review.</span></div><div class="result-code" data-result-code>EXIT 0</div></div></article><article class="panel diff-panel"><div class="panel-heading"><div><p class="panel-overline">PLAIN-LANGUAGE DIFF</p><h2>What changed?</h2></div><span class="small-muted">Illustrative view</span></div><div class="diff-stack" data-diff-stack><div class="diff-line diff-context"><span>guest traffic</span><span>→</span><strong>internal networks</strong><span class="diff-badge is-blocked">BLOCKED</span></div><div class="diff-line diff-context"><span>staff traffic</span><span>→</span><strong>HQ server / HTTPS</strong><span class="diff-badge is-allowed">ALLOWED</span></div><div class="diff-explanation"><span class="explanation-icon">i</span><span>The safe candidate keeps the intended order: deny private networks first, then allow public services.</span></div></div></article></div>
-          </section>
-
-          <section class="view" data-view="evidence">
-            <div class="page-heading compact-heading"><div><div class="section-kicker"><span class="kicker-line"></span>EVIDENCE / TRACEABLE RESULTS</div><h1>Proof behind the interface.</h1><p class="heading-copy">The executive view is backed by reproducible local checks and a reviewable Git history.</p></div><div class="heading-actions"><button class="button button-quiet" type="button" data-action="copy-summary"><span>Copy summary</span><span class="button-arrow">↗</span></button></div></div>
-            <div class="evidence-grid"><article class="panel evidence-summary-panel"><div class="panel-heading"><div><p class="panel-overline">VALIDATION RECORD</p><h2>Final local run</h2></div><span class="panel-tag tag-green">VERIFIED</span></div><div class="evidence-status"><span class="evidence-status-mark">✓</span><div><strong>16 checks passed</strong><span>14 October 2026 · 17:41 WAT</span></div></div><div class="evidence-command"><span>$</span><code>python -m pytest -q</code><b>16 passed</b></div><div class="evidence-command"><span>$</span><code>python scripts/batfish_validate.py</code><b>PASS</b></div><div class="evidence-command"><span>$</span><code>unsafe candidate validation</code><b class="is-red-text">BLOCKED</b></div></article><article class="panel evidence-timeline-panel"><div class="panel-heading"><div><p class="panel-overline">CHANGE HISTORY</p><h2>Review trail</h2></div><span class="small-muted">Git-backed</span></div><div class="timeline"><div class="timeline-item is-current"><span class="timeline-dot"></span><div><strong>Candidate validated</strong><span>16 tests and policy assertions completed.</span></div><time>17:41</time></div><div class="timeline-item"><span class="timeline-dot"></span><div><strong>Reconciliation recorded</strong><span>Four baseline findings mapped to desired state.</span></div><time>17:35</time></div><div class="timeline-item"><span class="timeline-dot"></span><div><strong>Report finalized</strong><span>Commit e6f5fdb pushed to main.</span></div><time>17:28</time></div></div></article><article class="panel limitation-panel"><p class="panel-overline">READ THIS BEFORE DEPLOYMENT</p><h2>What this evidence does not prove</h2><ul><li>It does not prove Packet Tracer was automatically configured.</li><li>It does not replace a live-device backup or rollback rehearsal.</li><li>It does not make CI reference output a drop-in running configuration.</li></ul><div class="limitation-note"><span class="status-dot is-amber"></span><span>Human approval remains a required control.</span></div></article></div>
-          </section>
-        </div>
+        <section class="view" data-view="evidence">
+          <div class="inner-heading"><p class="section-kicker"><span></span>PROOF</p><h1>Keep the detail available,<br /><em>without leading with it.</em></h1><p>The presentation stays simple. The evidence is still there when the client wants to look closer.</p></div>
+          <div class="proof-grid"><article class="proof-card panel-surface"><div class="panel-top"><div><p class="panel-label">VALIDATION RECORD</p><h3>Final local run</h3></div><span class="pass-badge">VERIFIED</span></div><div class="proof-total"><span>✓</span><div><strong>16 checks passed</strong><small>14 October 2026 · 17:41 WAT</small></div></div><div class="proof-row"><span>Automated checks</span><b>16 passed</b></div><div class="proof-row"><span>Network behavior</span><b>Staff allowed · Guest blocked</b></div><div class="proof-row"><span>Unsafe change</span><b class="is-red-text">Blocked</b></div></article><article class="timeline-card panel-surface"><div class="panel-top"><div><p class="panel-label">REVIEW TRAIL</p><h3>What happened</h3></div><span class="panel-note">Git-backed</span></div><div class="timeline"><div><i class="timeline-dot is-green"></i><p><strong>Design checked</strong><span>16 automated checks and policy assertions passed.</span></p><time>17:41</time></div><div><i class="timeline-dot"></i><p><strong>Findings recorded</strong><span>Four original configuration issues mapped to the desired design.</span></p><time>17:35</time></div><div><i class="timeline-dot"></i><p><strong>Report published</strong><span>Commit 6418d52 added this presentation layer.</span></p><time>17:28</time></div></div></article><article class="boundary-card-large"><p class="panel-label">ONE IMPORTANT BOUNDARY</p><h2>Validated design is not the same as live deployment.</h2><p>This view demonstrates how the change would be reviewed. It does not claim that Packet Tracer devices were automatically configured.</p><div><i class="status-dot is-amber"></i><strong>Human approval is still required.</strong></div></article></div>
+        </section>
       </main>
     </div>
 
-    <div class="toast" role="status" aria-live="polite" data-toast><span class="toast-mark">✓</span><span data-toast-message>Validation complete</span></div>
-    <div class="modal-backdrop" data-modal-backdrop aria-hidden="true"><div class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title"><button class="modal-close" type="button" data-modal-close aria-label="Close details">×</button><p class="panel-overline">SELECTED NODE / DETAILS</p><h2 id="detail-modal-title">HQ-R1</h2><p class="modal-description" data-modal-description>HQ router · 2 modeled tunnels</p><div class="modal-stats"><div><span>State</span><strong class="is-green-text">Validated</strong></div><div><span>Role</span><strong data-modal-role>Edge router</strong></div><div><span>Evidence</span><strong>Candidate config</strong></div></div><div class="modal-note"><span>i</span><span>This is a modeled reference node. Live device state is intentionally not claimed.</span></div></div></div>
+    <div class="toast" role="status" aria-live="polite" data-toast><span>✓</span><strong data-toast-message>Change checked</strong></div>
+    <div class="modal-backdrop" data-modal-backdrop aria-hidden="true"><div class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title"><button class="modal-close" type="button" data-modal-close aria-label="Close details">×</button><p class="panel-label">SELECTED NETWORK POINT</p><h2 id="detail-modal-title">HQ-R1</h2><p class="modal-description" data-modal-description>HQ router · two design tunnels.</p><div class="modal-stats"><div><span>State</span><strong class="is-green-text">Checked</strong></div><div><span>Role</span><strong data-modal-role>Edge router</strong></div><div><span>View</span><strong>Design record</strong></div></div><div class="modal-note"><i>i</i><span>This is a design record. It intentionally does not claim live device telemetry.</span></div></div></div>
     <script src="app.js"></script>
   </body>
 </html>
