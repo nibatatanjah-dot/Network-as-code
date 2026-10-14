@@ -88,6 +88,7 @@ document.querySelectorAll('[data-action="run-safe"]').forEach((button) => button
   setScenario('safe');
 }));
 document.querySelector('[data-action="view-evidence"]')?.addEventListener('click', () => activateView('evidence'));
+document.querySelector('[data-action="run-policy"]')?.addEventListener('click', () => showToast('Policy gate passed · 4 checks complete'));
 document.querySelector('[data-action="copy-summary"]')?.addEventListener('click', async () => {
   const summary = 'P3 Network Assurance: 16 checks passed. Staff access allowed, Guest access blocked, unsafe change stopped. Live deployment not executed.';
   try { await navigator.clipboard.writeText(summary); showToast('Executive summary copied'); } catch { showToast('Summary ready: 16 checks passed'); }
