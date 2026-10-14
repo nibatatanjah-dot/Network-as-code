@@ -13,6 +13,7 @@ This repository is a complete **starter implementation** for automating the secu
 - A Batfish snapshot builder, positive/negative reachability checks, and a bad-change generator.
 - An optional read-only pyATS live-device smoke suite, run after successful deployment to a compatible real IOS lab; it is not run against Packet Tracer or normal public PR runners.
 - GitHub Actions CI for linting, rendering, automated checks and Batfish analysis.
+- A dark, interactive client-facing dashboard in `dashboard/` for presenting topology, policy outcomes, reconciliation findings, safe/unsafe change simulations and evidence.
 - An optional, guarded Ansible deployment-and-rollback playbook for a compatible SSH-accessible lab. Deployment remains blocked until you prepare a separate reviewed candidate directory and explicitly verify the target platform and rollback method.
 - Pinned optional Ansible and pyATS control-node dependencies and Galaxy collection versions.
 - A Windows/VS Code runbook covering exact locations, commands, GitHub setup, test scenarios and report evidence.
@@ -106,3 +107,7 @@ The last command is expected to exit non-zero because the bad candidate permits 
 ## Start here
 
 Follow `docs/IMPLEMENTATION_RUNBOOK.md` in order. Do not skip the baseline reconciliation and deployment-feasibility steps. The rendered candidate configs and actual Batfish service cannot be validated in this generated bundle alone; run the included local checks on your machine, then run the Docker/Batfish integration checks in the runbook. The Batfish service uses the dated tag `batfish/allinone:test-2026.10.06.3806` checked on 2026-10-14; upgrade this tag deliberately and re-run the integration tests when changing it.
+
+## Client demonstration dashboard
+
+Open `dashboard/index.html` for a presentation-ready view of the project. It includes the three-site topology, plain-language policy results, reconciliation findings, an interactive safe/unsafe change simulator, and the evidence boundary around modeled validation versus live deployment. See `dashboard/README.md` for the recommended demonstration flow.
